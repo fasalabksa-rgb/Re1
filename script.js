@@ -184,9 +184,9 @@ function addItemToGridAndArray() {
     const itemName = document.getElementById('item_name').value;
     const quantity = document.getElementById('quantity').value.trim();
     const batchNo = document.getElementById('batch_no').value.trim();
-    const expDay = document.getElementById('exp_day').value.trim();
-    const expMonth = document.getElementById('exp_month').value.trim();
-    const expYear = document.getElementById('exp_year').value.trim();
+    const expDay = rawDay.padStart(2, '0');
+    const expMonth = rawMonth.padStart(2, '0');
+    const expiryDate = (expYear && expMonth && expDay) ? `${expYear}-${expMonth}-${expDay}` : '';
     
     const unitSelect = document.getElementById('unit');
     const unitId = unitSelect.value;

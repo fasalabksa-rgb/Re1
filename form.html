@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستند وارد الصيدلية المتطور</title>
+    <style>
+        :root {
+            --primary: #2b6cb0;
+            --primary-dark: #1a4e8a;
+            --success: #2f855a;
+            --success-dark: #22543d;
+            --danger: #e53e3e;
+            --danger-dark: #c53030;
+            --bg: #f8fafc;
+            --border: #cbd5e0;
+            --text: #2d3748;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 15px;
+            color: var(--text);
+        }
+        .invoice-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h2 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+            color: var(--primary);
+            font-size: 20px;
+        }
+        .invoice-header {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        .header-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .items-input-container {
+            background: #f7fafc;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .input-row-1 {
+            display: grid;
+            grid-template-columns: 1.5fr 3fr 1.5fr 1.5fr;
+            gap: 12px;
+        }
+        .input-row-2 {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .field-group label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #4a5568;
+        }
+        input, select {
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 15px;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(43, 108, 176, 0.2);
+        }
+        input[readonly] {
+            background-color: #e2e8f0;
+            color: #4a5568;
+        }
+        .date-triple {
+            display: flex;
+            gap: 4px;
+        }
+        .date-triple input {
+            text-align: center;
+            padding: 8px 4px;
+        }
+        .btn-add {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 9px 30px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            height: 38px;
+        }
+        .btn-add:active { background-color: var(--primary-dark); }
+        .table-container {
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        th {
+            background-color: #2d3748;
+            color: white;
+        }
+        tr:nth-child(even) { background-color: #f7fafc; }
+        .empty-row {
+            text-align: center;
+            color: #a0aec0;
+            padding: 20px;
+        }
+        .btn-delete {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-delete:hover { background-color: var(--danger-dark); }
+        .form-actions {
+            margin-top: 25px;
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 5px;
+        }
+        .btn-submit-invoice {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
+        }
+        .btn-submit-invoice:hover { background-color: var(--success-dark); }
+    </style>
+</head>
+<body>
+
+<div class="invoice-card">
+    <h2>شاشة مستند الوارد (إدخال مقسم على سطرين)</h2>
+    
+    <form id="mainInvoiceForm">
+        <div id="hiddenInputsContainer"></div>
+
+        <!-- ترويسة مستند الوارد -->
+        <div class="invoice-header">
+            <div class="header-group" style="flex: 0 0 180px;">
+                <label>تاريخ الوارد (تعديل بالإنتر):</label>
+                <input type="date" id="working_date" autofocus onkeydown="handleWorkingDateKey(event)">
+            </div>
+            <div class="header-group">
+                <label>اسم المورد (شركة الأدوية):</label>
+                <input type="text" id="supplier" autocomplete="off" onkeydown="handleSupplierKey(event)">
+            </div>
+            <div class="header-group" style="flex: 2;">
+                <label>ملاحظات الوارد الإضافية:</label>
+                <input type="text" id="notes" autocomplete="off" onkeydown="handleNotesKey(event)">
+            </div>
+        </div>
+
+        <!-- حاوية حقول إدخال البنود مقسمة على سطرين -->
+        <div class="items-input-container">
+            
+            <!-- السطر الأول المطلوب -->
+            <div class="input-row-1">
+                <div class="field-group">
+                    <label>معرف الصنف (ID)</label>
+                    <input type="text" id="item_id" autocomplete="off" onkeydown="handleItemIdKey(event)">
+                </div>
+
+                <div class="field-group">
+                    <label>اسم الدواء/الصنف (للمعاينة)</label>
+                    <input type="text" id="item_name" value="يرجى إدخال معرف الصنف..." readonly tabindex="-1">
+                </div>
+
+                <div class="field-group">
+                    <label>الوحدة (أسهم)</label>
+                    <select id="unit" onkeydown="handleUnitKey(event)">
+                        <option value="">اختر الصنف أولاً</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label>الكمية الواردة</label>
+                    <input type="number" id="quantity" min="1" onkeydown="handleQuantityKey(event)">
+                </div>
+            </div>
+            <!-- السطر الثاني لبقية الحقول وزر الإدخال -->
+            <div class="input-row-2">
+                <div class="field-group">
+                    <label>رقم التشغيلة (Batch No.)</label>
+                    <input type="text" id="batch_no" autocomplete="off" onkeydown="handleBatchNoKey(event)">
+                </div>
+
+                <div class="field-group">
+                    <label>تاريخ الإنتهاء (يوم/شهر/سنة)</label>
+                    <div class="date-triple">
+                        <input type="text" id="exp_day" placeholder="يوم" maxlength="2" autocomplete="off" onkeydown="handleExpDayKey(event)">
+                        <input type="text" id="exp_month" placeholder="شهر" maxlength="2" autocomplete="off" onkeydown="handleExpMonthKey(event)">
+                        <input type="text" id="exp_year" placeholder="سنة" maxlength="4" autocomplete="off" onkeydown="handleExpYearKey(event)">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>موقع التخزين (أسهم)</label>
+                    <select id="warehouse" onkeydown="handleWarehouseKey(event)">
+                        <!-- يتم شحنها ديناميكياً من السيرفر -->
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <button type="button" id="add_btn" class="btn-add" onclick="addItemToGridAndArray()">إدخال (Enter)</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- جدول استعراض الأصناف المضافة للعينات -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>معرف الصنف</th>
+                        <th>اسم الدواء والجرعة</th>
+                        <th>الوحدة</th>
+                        <th>الكمية الواردة</th>
+                        <th>رقم التشغيلة</th>
+                        <th>تاريخ الانتهاء</th>
+                        <th>موقع التخزين</th>
+                        <th style="width: 80px; text-align: center;">إجراء</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTableBody">
+                    <tr id="emptyRow"><td colspan="8" class="empty-row">لم يتم إضافة أي أدوية بعد. استخدم لوحة المفاتيح للإدخال السريع.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" id="submit_invoice_btn" class="btn-submit-invoice">حفظ وإرسال مستند الوارد بالكامل</button>
+        </div>
+    </form>
+</div>
+
+<!-- استدعاء ملفات البرمجة والربط لقاعدة البيانات الخارجية -->
+<script src="data_js.php"></script>
+<script src="script.js"></script>
+</body>
+</html>

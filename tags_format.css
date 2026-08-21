@@ -1,0 +1,323 @@
+/* ==========================================================================
+   ملف CSS المحاسبي الذكي - لتنسيق الواجهات تلقائياً بدون كلاسات
+   ========================================================================== */
+
+/* الكود الأساسي الخاص بك مع تحسينات طفيفة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* يضمن حساب المساحات بشكل صحيح */
+}
+
+body {
+    direction: rtl;
+    background-color: #f4f6f9; /* رمادي مريح للعين */
+    color: #2c3e50; /* لون نص داكن واحترافي */
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: 'Segoe UI', Tahoma, sans-serif; /* تفضيل خطوط حديثة مع الإبقاء على Tahoma كبديل */
+}
+
+/* --- 1. الألوان المحاسبية القياسية --- */
+:root {
+    --primary-color: #2c3e50;    /* كحلي داكن - للقوائم والعناوين */
+    --success-color: #27ae60;    /* أخضر - للإيرادات والأرباح والسندات */
+    --danger-color: #c0392b;     /* أحمر - للمصروفات والخصومات والخسائر */
+    --warning-color: #f39c12;    /* برتقالي - للالتزامات والتحذيرات */
+    --border-color: #dcdde1;     /* رمادي فاتح للحدود والجداول */
+}
+
+/* --- 2. تنسيق بطاقات البيانات الملحقة (Dashboard Cards) --- */
+.card {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* --- 3. تنسيق الجداول المحاسبية (كشف الحساب / القيود) --- */
+.account-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: #ffffff;
+}
+
+.account-table th {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 10px;
+    text-align: right;
+    font-weight: bold;
+    border: 1px solid var(--primary-color);
+}
+
+.account-table td {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    text-align: right;
+}
+
+/* تلوين الصفوف بالتناوب لسهولة القراءة الرقمية */
+.account-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* تأثير عند تمرير الفأرة على الصف */
+.account-table tr:hover {
+    background-color: #f1f2f6;
+}
+
+/* --- 4. فئات خاصة بالأرقام المالية --- */
+.credit { /* دائن / إيراد */
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+.debit { /* مدين / مصروف */
+    color: var(--danger-color);
+    font-weight: bold;
+}
+
+.balance { /* الرصيد الحالي */
+    font-weight: bold;
+    font-family: monospace, Tahoma; /* وضوح الأرقام */
+    font-size: 15px;
+}
+
+/* --- 5. تنسيق الأزرار المحاسبية --- */
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+}
+
+.btn-success { background-color: var(--success-color); color: white; }
+.btn-danger { background-color: var(--danger-color); color: white; }
+.btn-primary { background-color: var(--primary-color); color: white; }
+
+
+/* 2. الهيكل العام للبرنامج (Layout) */
+header {
+    background-color: #1e293b; /* أزرق داكن فخم للأنظمة المالية */
+    color: #ffffff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #38bdf8;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #38bdf8;
+    border: #0f172a;
+    border-bottom: 2px dotted;
+    padding: 5px;
+    margin:  0px 0px 20px 0;
+}
+
+main {
+    max-width: 1400px;
+    margin: 24px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+/* تقسيم تلقائي إذا وُجد شريط جانبي مع المحتوى الرئيسي */
+main:has(aside) {
+    grid-template-columns: 280px 1fr;
+}
+
+aside {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    height: fit-content;
+}
+
+section, article {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* 3. تنسيق جداول البيانات المحاسبية (الفواتير والقيود) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    text-align: right;
+}
+
+th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    text-align: center;
+}
+
+td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+}
+
+tr:hover td {
+    background-color: #f8fafc; /* تمييز السطر عند مرور الماوس لسهولة القراءة */
+}
+
+/* تنسيق تلقائي لأرقام الحسابات والمدين والدائن (العمود الأخير أو ما قبل الأخير غالباً) */
+td:has(input[type="number"]), td:empty:not(:first-child) {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+/* 4. الحقول والنماذج المحاسبية (Inputs & Forms) */
+form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+fieldset {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+legend {
+    font-weight: 600;
+    padding: 0 8px;
+    color: #0f172a;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #475569;
+    font-size: 0.85rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #1e293b;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* تخصيص حقل الباركود المذكور في مميزاتك (يمكن استهدافه بنوع المعرف) */
+input[placeholder*="باركود" i], input[placeholder*="barcode" i] {
+    background-color: #fef08a !important; /* لون أصفر خفيف لتمييز حقل الفسح السريع */
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* 5. الأزرار (Buttons) وعناصر التحكم */
+button, input[type="submit"], input[type="button"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background-color: #2563eb; /* الزر الافتراضي أزرق */
+    color: white;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #1d4ed8;
+}
+
+/* تمييز الأزرار تلقائياً بناءً على نصوصها المحاسبية الشائعة */
+button:has(span):contains("حفظ"), button:contains("ترحيل"), input[value="حفظ"] {
+    background-color: #16a34a; /* أخضر للحفظ والترجيل */
+}
+button:has(span):contains("حفظ"):hover, button:contains("ترحيل"):hover {
+    background-color: #15803d;
+}
+
+button:contains("إلغاء"), button:contains("حذف"), input[value="إلغاء"] {
+    background-color: #dc2626; /* أحمر للإلغاء والحذف */
+}
+button:contains("إلغاء"):hover, button:contains("حذف"):hover {
+    background-color: #b91c1c;
+}
+
+button:disabled, input[type="submit"]:disabled {
+    background-color: #cbd5e1 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed;
+}
+
+/* 6. التنبيهات وحالات النظام (Alerts & Status) */
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    padding: 24px;
+    max-width: 500px;
+    width: 100%;
+}
+
+/* قفل الحقول عند استعراض فاتورة مغلقة (Read-only) */
+input[readonly], select[disabled] {
+    background-color: #f1f5f9;
+    color: #64748b;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+/* تنسيق القائمة الانزلاقية التلقائي (Accordion) */
+aside details { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 8px; overflow: hidden; transition: all 0.3s ease; }
+aside summary { background-color: #edf2f7; color: #1e293b; font-weight: bold; padding: 12px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+aside summary::after { content: '▾'; font-size: 0.8rem; transition: transform 0.2s; }
+aside details[open] summary::after { transform: rotate(180deg); }
+aside details ul { list-style: none; padding: 8px 0; background-color: #ffffff; border-top: 1px solid #e2e8f0; }
+aside details li a { display: block; padding: 8px 16px; color: #475569; text-decoration: none; border-right: 3px solid transparent; transition: all 0.2s; }
+aside details li a:hover { background-color: #f1f5f9; color: #2563eb; border-right-color: #2563eb; font-weight: 600; }

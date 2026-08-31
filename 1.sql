@@ -1,5 +1,3 @@
-
-
 Table:`admin_settings`,'جدول إعدادات وقيود المشرف';
 `admin_settings_description`,text,'نبذة توضيحية باللغة العربية تشرح ما يُجبر المستخدمين عليه من خلال هذا القيد';
 `admin_settings_id`,int(11),'المعرف الفريد والآلي لرقم الصلاحية أو القيد العام';
@@ -116,6 +114,7 @@ Table:`texts_lang`,'جدول لغات ونصوص النظام';
 `texts_lang_replacement_text`,text,'النص البديل والترجمة الفعلية التي ستوضع بدلاً من كلمة البحث';
 `texts_lang_search_key`,varchar(100),'كلمة البحث المفتاحية داخل القالب مثل (txt_shipment_details)';
 Table:`units`,'جدول وحدات القياس';
+`units_barcode`,varchar(100),'باركود الوحدة';
 `units_conversion_factor`,decimal(12,4),'معامل التحويل للوحدة مقارنة بالوحدة الأصغر (مثل: الكرتون يحتوي على 12 حبة)';
 `units_created_at`,bigint(20),'تاريخ ووقت إنشاء وحدة القياس مخزن كرقم صحيح (Unix Timestamp 64-bit) لسرعة الأداء';
 `units_id`,int(11),'المعرف الفريد والآلي لسجل الوحدة';
@@ -127,7 +126,7 @@ Table:`units`,'جدول وحدات القياس';
 `units_items_id`,int(11),'الربط بجدول الأصناف لبيان الصنف التابع له هذه الوحدة والتسعير الخاص بها';
 `units_name`,varchar(50),'اسم وحدة القياس المرتبطة بالصنف (مثل: حبة، كرتون، لتر، ساعة عمل)';
 `units_sale_price`,decimal(15,4),'سعر البيع المحدد والخاص بهذه الوحدة بالتحديد (يتيح تسعير مختلف للحبة عن الكرتون)';
-`units_short_name`,varchar(10),'الاختصار لاسم الوحدة (مثل: حبة، كرتون، L، H)';
+`units_user_code`,varchar(50),'معرف الوحدة';
 Table:`user_activities`,'جدول أحداث المستخدمين';
 `user_activities_action`,varchar(50),'نوع الإجراء أو الحدث المتخذ في النظام (مثل: login، create_invoice، update_cost، delete_journal_item)';
 `user_activities_created_at`,bigint(20),'تاريخ ووقت حدوث الفعل الفوري على السيرفر مخزن كـ Unix Timestamp رقمي صحيح 64 بت تفادياً لمشاكل عام 2038';

@@ -75,7 +75,6 @@ Table:`invoices_items`,'جدول بنود الفاتورة';
 `invoices_items_units_id`,int(11),'رقم وحدة القياس المختارة والمستخدمة في هذا السطر من جدول الوحدات لتحديد التكلفة والسعر';
 Table:`items`,'جدول دليل الأصناف';
 `items_allow_decimal`,tinyint(1),'السماح بالكسور العشرية: 1 نعم، 0 لا';
-`items_barcode`,varchar(100),'الباركود الرئيسي للصنف';
 `items_cost_price`,decimal(15,4),'متوسط سعر التكلفة';
 `items_created_at`,bigint(20),'طابع وقت الإنشاء الرقمي Unix Timestamp';
 `items_id`,int(11),'المعرف الآلي الفريد للصنف';

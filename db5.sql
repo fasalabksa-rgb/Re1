@@ -65,6 +65,7 @@ Table:`invoices`,'جدول ترويسة الفاتورة';
 `invoices_tax_amount`,decimal(15,4),'إجمالي قيمة ضريبة القيمة المضافة المحتسبة على كامل الفاتورة';
 `invoices_type`,enum('sales','sales_return','sales_suspended','purchase','purchase_return','purchase_suspended'),'نوع الفاتورة: مبيعات، مرتجع مبيعات، مبيعات معلقة، مشتريات، مرتجع مشتريات، مشتريات معلقة';
 Table:`invoices_items`,'جدول بنود الفاتورة';
+`invoices_items_branches_warehouses_id`,int(11),'رقم معرف المستودع الذي حصلت عليه الحركة';
 `invoices_items_id`,int(11),'المعرف الفريد والآلي لبند الفاتورة (المفتاح الأساسي)';
 `invoices_items_invoice_id`,int(11),'الترتيب الثاني: الربط بجدول ترويسة الفاتورة الأب لتوثيق تبعية البند للمستند الأصلي';
 `invoices_items_items_id`,int(11),'رقم الصنف المرتبط من جدول الأصناف الرئيسي لمعرفة المادة المتحركة مخزنياً';

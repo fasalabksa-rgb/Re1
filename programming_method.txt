@@ -8,7 +8,7 @@ require_once "db.php";
 require_once "function.php";
 require_once "auth.php";
 ....
-}else
+}else{
 $MessageType = "html";
 require_once "db.php";
 require_once "function.php";

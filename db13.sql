@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 13 سبتمبر 2026 الساعة 13:25
+-- Generation Time: 16 سبتمبر 2026 الساعة 16:23
 -- إصدار الخادم: 8.0.17
 -- PHP Version: 7.3.10
 
@@ -222,7 +222,7 @@ CREATE TABLE `items_components` (
 
 CREATE TABLE `journal_entries` (
   `journal_entries_id` int(11) NOT NULL COMMENT 'المفتاح الأساسي: المعرف الفريد والآلي للقيد ورقم السجل الدفتري العام',
-  `journal_entries_source_type` enum('manual','invoice','voucher') NOT NULL DEFAULT 'manual' COMMENT 'الترتيب الثاني: نوع المستند الأصلي المصدر (manual قيد يدوي، invoice قيد فاتورة، voucher قيد سند)',
+  `journal_entries_source_type` enum('manual','invoice','voucher','depreciation') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'manual' COMMENT 'الترتيب الثاني: نوع المستند الأصلي المصدر (manual قيد يدوي، invoice قيد فاتورة، voucher قيد سند)',
   `journal_entries_source_id` int(11) NOT NULL DEFAULT '0' COMMENT 'رقم المعرف الفريد (ID) للمستند الأصلي التابع له (يأخذ رقم الفاتورة أو السند، ويأخذ 0 إذا كان القيد يدوياً صرفاً)',
   `journal_entries_date` bigint(20) NOT NULL COMMENT 'التاريخ المحاسبي الفعلي لاعتماد القيد في الدفاتر مخزن كـ Unix Timestamp رقمي 64 بت لتسهيل تقارير الجرد المالي والتكلفة',
   `journal_entries_description` text COMMENT 'البيان المحاسبي العام أو الشرح الإجمالي الذي يوضح سبب ومضمون القيد المالي الكلي',
@@ -381,8 +381,8 @@ CREATE TABLE `vouchers` (
   `vouchers_type` enum('receipt','payment','receipt_suspended','payment_suspended') NOT NULL COMMENT 'نوع السند: قبض، صرف، قبض معلق، صرف معلق',
   `vouchers_amount` decimal(15,4) NOT NULL DEFAULT '0.0000' COMMENT 'إجمالي القيمة المالية للسند بالكامل قبل توزيع البنود',
   `vouchers_description` text COMMENT 'البيان أو الشرح العام للسند الموضح لسبب القبض أو الصرف الجماعي',
-  `vouchers_is_active` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'حالة السند في النظام: 1 نشط ومعتمد محاسبياً، 0 ملغى ومحذوف أثره ماليًا',
-  `vouchers_created_at` bigint(20) NOT NULL COMMENT 'تاريخ ووقت إنشاء السند مخزن كـ Unix Timestamp رقمي 64 بت لتفادي مشاكل المستقبل وعام 2038'
+  ```vouchers_date``` bigint(20) NOT NULL COMMENT 'التاريخ المحاسبي الذي يدخله المستخدم',
+  `vouchers_created_at` bigint(20) NOT NULL COMMENT 'آلي : تاريخ ووقت إنشاء السند مخزن كـ Unix Timestamp رقمي 64 بت لتفادي مشاكل المستقبل وعام 2038'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='جدول ترويسة السند';
 
 --
@@ -479,7 +479,7 @@ ALTER TABLE `journal_entries`
 ALTER TABLE `journal_items`
   ADD PRIMARY KEY (`journal_items_id`),
   ADD KEY `journal_items_journal_entries_id` (`journal_items_journal_entries_id`),
-  ADD KEY `journal_items_chart_of_accounts_id` (`journal_items_chart_of_accounts_id`);
+  ADD KEY `idx_balance_calculation` (`journal_items_chart_of_accounts_id`,`journal_items_created_at`,`journal_items_entry_type`);
 
 --
 -- Indexes for table `reports_files`
